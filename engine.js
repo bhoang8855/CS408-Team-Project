@@ -86,24 +86,18 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        if ( player.y < 80 ) {
+        if ( Math.round(player.y / 80) === 0 ) {
             player.update();
-            allEnemies.forEach(function(enemy) {
-              enemy.reset();
-            });
         }
         doc.getElementById('score').innerHTML = player.score;
     }
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
-            if ( Math.round(enemy.x / 100) === Math.round(player.x / 100) &&
+            if ( Math.round(enemy.x / 100) === Math.round(player.x / 100) && 
                  Math.round(enemy.y / 100) === Math.round(player.y / 100) ) {
                     player.reset();
-                    allEnemies.forEach(function(enemy) {
-                      enemy.reset();
-                    });
             }
-        });
+        });    
     }
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every

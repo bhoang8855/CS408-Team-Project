@@ -1,4 +1,3 @@
-var gameScore = 0;
 // Enemies our player must avoid
 var Enemy = function(row, speed) {
     // Variables applied to each of our instances go here,
@@ -16,14 +15,11 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x = this.x + this.speed * dt;
-    if (this.x > 700) this.x = -100;
+    if (this.x > 500) this.x = -100;
 }
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-Enemy.prototype.reset = function() {
-    this.x = -100;
 }
 // Now write your own player class
 // This class requires an update(), render() and
@@ -62,20 +58,19 @@ Player.prototype.handleInput = function(key) {
     else if ( key === 'down' || key=='down2') {
         if ( this.y < 750 ) {
             this.y = this.y + 80;
-        }
+        } 
     }
 }
 Player.prototype.reset = function() {
     this.x = 350;
     this.y = 750;
-    this.score = 0;
+    this.score = 0;    
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-var myScore = 0;
-for (var i = 0; i < 6; i++) {
+for (var i = 0; i < 7; i++) {
     if(i%2==0) {
         var random_speed = getRandomNumber(10, 31) * 13;
         var random_row = getRandomNumber(1, 7);
