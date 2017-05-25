@@ -1,34 +1,30 @@
 var gameScore = 1;
-// Enemies our player must avoid
+// Enemy object
 var Enemy = function(row, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+    // x & y represent the initial position of enemies
     this.x = -100;
     this.y = 80 + (row - 1) * 100;
     this.speed = speed;
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
 }
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+// Update the enemy's position
+// dt - a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+    // Movement is multiplied by dt to ensure game runs
+    // at same speed for all computers.
     this.x = this.x + this.speed * dt;
+    // if enemy reaches the end of the screen revert to beginning
     if (this.x > 700) this.x = -100;
     checkCollisions(this);
 }
-// Draw the enemy on the screen, required method for game
+// Render the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+// Reset the horizontal position of enemies
 Enemy.prototype.reset = function() {
     this.x = -100;
 }
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// Player object
 var Player = function() {
     this.x = 350;
     this.y = 750;
@@ -36,14 +32,17 @@ var Player = function() {
     this.sprite = 'Images/mario.png';
 
 }
+// Resets the player's position and updates the score
 Player.prototype.update = function() {
     this.x = 350;
     this.y = 750;
     this.score = this.score + 1;
 }
+// Render the player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
+// Handles keyboard input for player movement
 Player.prototype.handleInput = function(key) {
     if ( key === 'left'|| key=='left2' ) {
         if ( this.x > 0 ) {
@@ -66,12 +65,34 @@ Player.prototype.handleInput = function(key) {
         }
     }
 }
+// Resets the player's position and score
 Player.prototype.reset = function() {
     this.x = 350;
     this.y = 750;
     this.score = 0;
 }
 
+// Generates koopas and goombas as enemies
+var generateEnemies = function(numEnemies) {
+    for (var i = 0; i < numEnemies; i++) {
+        if(i%2==0) {
+            var random_speed = getRandomNumber(10, 31) * 13;
+            var random_row = getRandomNumber(1, 8);
+            koopa = new Enemy(random_row, random_speed);
+            koopa.sprite = 'Images/koopa.png';
+            allEnemies.push(koopa);
+        }
+        else{
+            var random_speed = getRandomNumber(10, 31) * 7;
+            var random_row = getRandomNumber(1, 8);
+            goomba = new Enemy(random_row, random_speed);
+            goomba.sprite = 'Images/goomba.png';
+            allEnemies.push(goomba);
+        }
+    }
+}
+
+// Checks collisions with enemy and if player reaches the top
 var checkCollisions = function(anEnemy) {
     allEnemies.forEach(function(enemy) {
         if ( Math.round(enemy.x / 100) === Math.round(player.x / 100) &&
@@ -84,49 +105,27 @@ var checkCollisions = function(anEnemy) {
                 gameScore = 1;
                 // Back to level 1
                 generateEnemies(gameScore);
-                console.log("Game Score = " + gameScore);
+                console.log("Number of enemies = " + gameScore);
         }
     });
 
     if(player.y < 80){
-        console.log('you made it!');
+        console.log('You made it!');
         gameScore += 1;
-        //Sconsole.log("Game Score = " + gameScore);
         increaseDifficulty(gameScore);
     }
 }
 
-var generateEnemies = function(numEnemies) {
-    for (var i = 0; i < numEnemies; i++) {
-        if(i%2==0) {
-            var random_speed = getRandomNumber(10, 31) * 13;
-            var random_row = getRandomNumber(1, 7);
-            koopa = new Enemy(random_row, random_speed);
-            koopa.sprite = 'Images/koopa.png';
-            allEnemies.push(koopa);
-        }
-        else{
-            var random_speed = getRandomNumber(10, 31) * 7;
-            var random_row = getRandomNumber(1, 7);
-            goomba = new Enemy(random_row, random_speed);
-            goomba.sprite = 'Images/goomba.png';
-            allEnemies.push(goomba);
-        }
-    }
-}
-
+// Increases the number of enemies
 var increaseDifficulty = function(numEnemies) {
-  // remove all previous enemies on canvas
+  // remove all previous enemies on screen
   allEnemies.length = 0;
 
-  // load new set of enemies
+  // Generate new set of enemies
   generateEnemies(numEnemies);
   console.log("Game Score = " + gameScore);
 }
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 var allEnemies = [];
 var myScore = 0;
 generateEnemies(gameScore);
@@ -135,8 +134,8 @@ var player = new Player();
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Listens for key presses and sends the keys to the
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
