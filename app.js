@@ -71,7 +71,12 @@ Player.prototype.reset = function() {
     this.y = 750;
     this.score = 0;
 }
-
+// Used to get a random speed and row for each enemy.
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+var allEnemies = [];
+var player = new Player();
 // Generates koopas and goombas as enemies
 var generateEnemies = function(numEnemies) {
     for (var i = 0; i < numEnemies; i++) {
@@ -126,14 +131,8 @@ var increaseDifficulty = function(numEnemies) {
   console.log("Game Score = " + gameScore);
 }
 
-var allEnemies = [];
-var myScore = 0;
 generateEnemies(gameScore);
 
-var player = new Player();
-function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-}
 // Listens for key presses and sends the keys to the
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
