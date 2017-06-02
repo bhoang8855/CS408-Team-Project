@@ -30,12 +30,12 @@ function loadStart(arr,func) {
             imgCache[location] = image;
             var ready = true;
             for(var i in imgCache) {
-                if(imgCache.hasOwnProperty(i) && !imgCache[i]) {
+                if(!imgCache[i]) {
                     ready = false;
                     break;
                 }
             }
-            //If all images are loaded, launches the function parameter
+            //If all images are loaded, launches the parameter function
             if(ready) {
                 func();
             }
@@ -49,7 +49,7 @@ function loadStart(arr,func) {
 function getImage(location) {
     return imgCache[location];
 }
-
+// Game loop that will continually update and render the game.
 function main() {
     // Get time delta information for smooth animation
     var now = Date.now(),

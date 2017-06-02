@@ -94,17 +94,18 @@ function Player() {
 // Generates koopas and goombas as enemies
 function generateEnemies(numEnemies) {
     for (var i = 0; i < numEnemies; i++) {
+        var randomRow,randomSpeed;
         if(i%2==0) {
-            var random_speed = (Math.floor(Math.random() * 21) + 10) * 15;
-            var random_row = (Math.floor(Math.random() * 7) + 1);
-            koopa = new Enemy(random_row, random_speed);
+            randomRow = (Math.floor(Math.random() * 7) + 1);
+            randomSpeed = (Math.floor(Math.random() * 21) + 10) * 15;
+            koopa = new Enemy(randomRow, randomSpeed);
             koopa.sprite = 'Images/koopa.png';
             allEnemies.push(koopa);
         }
         else{
-            var random_speed = (Math.floor(Math.random() * 21) + 10) * 10;
-            var random_row = (Math.floor(Math.random() * 7) + 1);
-            goomba = new Enemy(random_row, random_speed);
+            randomRow = (Math.floor(Math.random() * 7) + 1);
+            randomSpeed = (Math.floor(Math.random() * 21) + 10) * 10;
+            goomba = new Enemy(randomRow, randomSpeed);
             goomba.sprite = 'Images/goomba.png';
             allEnemies.push(goomba);
         }
