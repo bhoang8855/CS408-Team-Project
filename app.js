@@ -30,7 +30,6 @@ var Player = function() {
     this.y = 750;
     this.score = 0;
     this.sprite = 'Images/mario.png';
-
 }
 // Resets the player's position and updates the score
 Player.prototype.update = function() {

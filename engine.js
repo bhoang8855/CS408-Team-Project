@@ -83,6 +83,8 @@ function updateAll(delta) {
     });
     if (Math.round(player.y / 95) === 0) {
         player.update();
+        var audio = new Audio('Sounds/next-level.wav');
+        audio.play();
     }
     document.getElementById('score').innerHTML = player.score;
 }
@@ -119,6 +121,7 @@ function renderAll() {
     });
     player.render();
 }
+
 myAudio = new Audio('Sounds/super-mario-bros.mp3');
 myAudio.addEventListener('ended', function() {
     this.currentTime = 0;
